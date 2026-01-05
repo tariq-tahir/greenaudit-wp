@@ -1,11 +1,20 @@
 <?php
 /**
+ * GreenAudit WP
+ *
+ * @package     GreenAudit
+ * @author      Tariq Tahir
+ * @copyright   2026 Tariq Tahir
+ * @license     GPL-3.0-or-later
+ * @link        https://ecowebtools.org/greenaudit
+ *
+ * @wordpress-plugin
  * Plugin Name: GreenAudit WP
- * Plugin URI: https://ecowebtools.org/greenaudit  
- * Description: Measure, reduce, and report your website's carbon footprint — powered by the original Website Carbon Calculator methodology.
+ * Plugin URI: https://ecowebtools.org/greenaudit
+ * Description: Measure, reduce, and report your website's carbon footprint — based on the Website Carbon Calculator methodology.
  * Version: 1.0.0
  * Author: Tariq Tahir
- * Author URI: https://ecowebtools.org  
+ * Author URI: https://ecowebtools.org
  * License: GPL-3.0+
  * Text Domain: greenaudit
  * Domain Path: /languages
