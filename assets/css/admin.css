@@ -1,26 +1,88 @@
 /* GreenAudit WP Admin Styles */
+:root {
+    --greenaudit-success: #4CAF50;
+    --greenaudit-success-bg: #f8fff8;
+    --greenaudit-warning: #FF9800;
+    --greenaudit-error: #F44336;
+    --greenaudit-error-bg: #fff8f8;
+    --greenaudit-border-radius: 4px;
+}
+
 #greenaudit-results,
 #greenaudit-diagnostics details {
-    border-left: 4px solid #4CAF50;
-    padding: 15px 0 20px 20px;
-    background: #f8fff8;
-    margin-top: 20px;
+    border-left: 4px solid var(--greenaudit-success);
+    padding: 1.25rem 0 1.5rem 1.5rem;
+    background-color: var(--greenaudit-success-bg);
+    margin-top: 1.5rem;
+    border-radius: 0 var(--greenaudit-border-radius) var(--greenaudit-border-radius) 0;
+}
+
+#greenaudit-diagnostics details[open] {
+    border-left-color: var(--greenaudit-warning);
+    background-color: #fff9e6;
 }
 
 #greenaudit-diagnostics details summary {
     cursor: pointer;
-    padding: 8px 0;
+    padding: 0.75rem 0;
     font-weight: 600;
+    list-style: none;
 }
 
+/* Accessibility: remove default marker, add custom icon */
+#greenaudit-diagnostics details summary::marker,
+#greenaudit-diagnostics details summary::-webkit-details-marker {
+    display: none;
+}
+
+#greenaudit-diagnostics details summary::before {
+    content: '▶ ';
+    display: inline-block;
+    width: 1.2em;
+    transition: transform 0.2s ease;
+}
+
+#greenaudit-diagnostics details[open] summary::before {
+    content: '▼ ';
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Spinner (improved visibility & a11y) */
 .spinner.is-active {
     visibility: visible !important;
     opacity: 1 !important;
     display: inline-block !important;
-    width: 20px !important;
-    height: 20px !important;
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+    vertical-align: middle;
+    margin-left: 0.5rem;
 }
 
+/* Optimization result */
 #optimize-result .notice {
-    margin-top: 15px;
+    margin-top: 1rem;
+}
+
+/* Print-friendly: hide non-essential UI for PDF context */
+@media print {
+    #greenaudit-controls,
+    #optimize-images-form,
+    #greenaudit-spinner,
+    #optimize-spinner {
+        display: none !important;
+    }
+    
+    #greenaudit-results,
+    #greenaudit-diagnostics details {
+        border: 1px solid #ddd;
+        box-shadow: none;
+    }
 }

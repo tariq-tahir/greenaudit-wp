@@ -1,0 +1,353 @@
+# Copyright (C) 2026 Tariq Tahir
+# This file is distributed under the same license as the GreenAudit WP package.
+msgid ""
+msgstr ""
+"Project-Id-Version: GreenAudit WP 1.0.0\n"
+"Report-Msgid-Bugs-To: https://ecowebtools.org\n"
+"POT-Creation-Date: 2026-01-05 12:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Tariq Tahir <tariq@ecowebtools.org>\n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;esc_html__;esc_html_e;esc_attr__;esc_attr_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: admin/class-greenaudit-admin.php:45
+#: admin/views/dashboard.php:3
+msgid "GreenAudit WP"
+msgstr ""
+
+#: admin/class-greenaudit-admin.php:46
+#: admin/class-greenaudit-admin.php:59
+msgid "GreenAudit"
+msgstr ""
+
+#: admin/class-greenaudit-admin.php:102
+msgid "Access denied."
+msgstr ""
+
+#: admin/class-greenaudit-admin.php:107
+msgid "No carbon data available."
+msgstr ""
+
+#: admin/class-greenaudit-admin.php:115
+#, php-format
+msgid "PDF Error: %s"
+msgstr ""
+
+#: admin/class-greenaudit-admin.php:142
+msgid "An unexpected error occurred."
+msgstr ""
+
+#: admin/class-greenaudit-admin.php:182
+#, php-format
+msgid "PDF generation failed: %s"
+msgstr ""
+
+#: admin/views/dashboard.php:13
+#, php-format
+msgid "About this tool: GreenAudit WP uses the original <a href=\"%s\" target=\"_blank\" rel=\"noopener\">Website Carbon Calculator</a> methodology by Wholegrain Digital — the first standardized approach to estimating website carbon emissions."
+msgstr ""
+
+#: admin/views/dashboard.php:18
+msgid "The internet consumes 1,021 TWh per year — more than the entire United Kingdom. Digital emissions now rival global aviation. Every optimization counts."
+msgstr ""
+
+#: admin/views/dashboard.php:27
+msgid "🔍 Run Carbon Audit"
+msgstr ""
+
+#: admin/views/dashboard.php:41
+msgid "Audit Complete"
+msgstr ""
+
+#: admin/views/dashboard.php:43
+msgid "Website:"
+msgstr ""
+
+#: admin/views/dashboard.php:44
+msgid "Carbon per visit:"
+msgstr ""
+
+#: admin/views/dashboard.php:45
+msgid "g CO₂"
+msgstr ""
+
+#: admin/views/dashboard.php:46
+msgid "fallback estimate"
+msgstr ""
+
+#: admin/views/dashboard.php:47
+msgid "Energy per visit:"
+msgstr ""
+
+#: admin/views/dashboard.php:48
+msgid "kWh"
+msgstr ""
+
+#: admin/views/dashboard.php:49
+#, php-format
+msgid "Data via the original <a href=\"%s\" target=\"_blank\" rel=\"noopener\">Website Carbon methodology</a> (Wholegrain Digital)"
+msgstr ""
+
+#: admin/views/dashboard.php:57
+msgid "📥 Download PDF Report"
+msgstr ""
+
+#: admin/views/dashboard.php:65
+msgid "Full Carbon Reduction Audit"
+msgstr ""
+
+#: admin/views/dashboard.php:66
+#, php-format
+msgid "Based on guidance from <a href=\"%s\" target=\"_blank\" rel=\"noopener\">Wholegrain Digital</a> and the Website Carbon Calculator."
+msgstr ""
+
+#: admin/views/dashboard.php:92
+msgid "How to Fix:"
+msgstr ""
+
+#: admin/views/dashboard.php:95
+msgid "Plugin:"
+msgstr ""
+
+#: admin/views/dashboard.php:98
+msgid "Manual Fix:"
+msgstr ""
+
+#: admin/views/dashboard.php:111
+msgid "🔄 Optimize Images to WebP"
+msgstr ""
+
+#: admin/views/dashboard.php:152
+msgid "Failed to retrieve carbon data. Please check your internet connection."
+msgstr ""
+
+#: includes/class-carbon-api.php:78
+msgid "DomPDF not found. Ensure /lib/dompdf/autoload.inc.php exists."
+msgstr ""
+
+#: includes/class-pdf-report.php:117
+msgid "N/A"
+msgstr ""
+
+#: includes/class-diagnostic.php:71
+#, php-format
+msgid "Found %d image that can be optimized to WebP."
+msgid_plural "Found %d images that can be optimized to WebP."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-diagnostic.php:73
+msgid "All images are in WebP format."
+msgstr ""
+
+#: includes/class-diagnostic.php:102
+msgid "WebP conversion is active — great for performance."
+msgstr ""
+
+#: includes/class-diagnostic.php:105
+#, php-format
+msgid "WebP Express is already active. Ensure “Convert to WebP” is enabled in <a href=\"%s\" target=\"_blank\" rel=\"noopener\">Settings</a>."
+msgstr ""
+
+#: includes/class-diagnostic.php:112
+msgid "Install WebP Express — it automatically serves WebP where supported."
+msgstr ""
+
+#: includes/class-diagnostic.php:129
+msgid "Uses Google Fonts — consider system fonts for faster load."
+msgstr ""
+
+#: includes/class-diagnostic.php:130
+msgid "Uses system fonts — great for performance."
+msgstr ""
+
+#: includes/class-diagnostic.php:133
+msgid "Replace Google Fonts with system fonts: <code>font-family: -apple-system, BlinkMacSystemFont, sans-serif;</code>"
+msgstr ""
+
+#: includes/class-diagnostic.php:150
+msgid "Caching enabled via plugin — good for performance."
+msgstr ""
+
+#: includes/class-diagnostic.php:154
+msgid "Caching is active. Review settings in plugin dashboard."
+msgstr ""
+
+#: includes/class-diagnostic.php:160
+msgid "Server-level caching detected — good for performance."
+msgstr ""
+
+#: includes/class-diagnostic.php:162
+msgid "No caching plugin or server config detected — enable for faster load."
+msgstr ""
+
+#: includes/class-diagnostic.php:167
+msgid "Add to .htaccess:<br><code>ExpiresActive On<br>ExpiresByType text/css \"access plus 1 year\"<br>AddOutputFilterByType DEFLATE text/html</code>"
+msgstr ""
+
+#: includes/class-diagnostic.php:185
+msgid "CSS/JS minification active — good for performance."
+msgstr ""
+
+#: includes/class-diagnostic.php:188
+msgid "Minification is active. Review settings in plugin dashboard."
+msgstr ""
+
+#: includes/class-diagnostic.php:194
+msgid "No minification plugin detected — consider optimization."
+msgstr ""
+
+#: includes/class-diagnostic.php:197
+msgid "Use Autoptimize to minify CSS/JS — improves load time and CO₂ footprint."
+msgstr ""
+
+#: includes/class-diagnostic.php:242
+msgid "Hosted on 100% renewable energy — excellent!"
+msgstr ""
+
+#: includes/class-diagnostic.php:243
+msgid "Hosting not verified as green — consider switching."
+msgstr ""
+
+#: includes/class-diagnostic.php:246
+msgid "Check your host at <a href=\"https://www.thegreenwebfoundation.org/green-web-check/\" target=\"_blank\" rel=\"noopener\">Green Web Check</a>."
+msgstr ""
+
+#: includes/class-diagnostic.php:271
+#, php-format
+msgid "Uses %d JavaScript framework — consider simplifying design."
+msgid_plural "Uses %d JavaScript frameworks — consider simplifying design."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-diagnostic.php:274
+msgid "Design is lightweight — good for performance and emissions."
+msgstr ""
+
+#: includes/class-diagnostic.php:277
+msgid "Dequeue unused scripts in <em>Settings → Asset CleanUp</em>. Simplify design for lower energy use."
+msgstr ""
+
+#: includes/class-diagnostic.php:296
+msgid "Dark mode plugin active — saves energy on OLED screens."
+msgstr ""
+
+#: includes/class-diagnostic.php:300
+msgid "Dark mode is enabled. Test on mobile devices."
+msgstr ""
+
+#: includes/class-diagnostic.php:306
+msgid "Dark mode CSS detected — great for mobile energy savings."
+msgstr ""
+
+#: includes/class-diagnostic.php:307
+msgid "No dark mode detected — consider adding for OLED screens."
+msgstr ""
+
+#: includes/class-diagnostic.php:310
+msgid "Add to CSS:<br><code>@media (prefers-color-scheme: dark) { body { background: #121212; color: #fff; } }</code>"
+msgstr ""
+
+#: includes/class-pdf-report.php:202
+msgid "Green Audit Report"
+msgstr ""
+
+#: includes/class-pdf-report.php:203
+msgid "Generated by GreenAudit WP — an open tool by ECO Web Tools"
+msgstr ""
+
+#: includes/class-pdf-report.php:204
+msgid "Website"
+msgstr ""
+
+#: includes/class-pdf-report.php:205
+msgid "Date"
+msgstr ""
+
+#: includes/class-pdf-report.php:208
+msgid "The internet consumes 1,021 TWh per year — more than the entire United Kingdom."
+msgstr ""
+
+#: includes/class-pdf-report.php:209
+msgid "From data centres to transmission networks to billions of devices, it all consumes electricity, producing carbon emissions equal to or greater than the global aviation industry."
+msgstr ""
+
+#: includes/class-pdf-report.php:212
+msgid "This website’s footprint"
+msgstr ""
+
+#: includes/class-pdf-report.php:213
+msgid "Carbon per visit"
+msgstr ""
+
+#: includes/class-pdf-report.php:215
+msgid "Energy per visit"
+msgstr ""
+
+#: includes/class-pdf-report.php:218
+msgid "Estimate via the original"
+msgstr ""
+
+#: includes/class-pdf-report.php:219
+msgid "Website Carbon Calculator methodology"
+msgstr ""
+
+#: includes/class-pdf-report.php:220
+msgid "Wholegrain Digital, 2018"
+msgstr ""
+
+#: includes/class-pdf-report.php:222
+msgid "✅ Optimizations applied"
+msgstr ""
+
+#: includes/class-pdf-report.php:228
+msgid "Recommended next steps"
+msgstr ""
+
+#: includes/class-pdf-report.php:229
+msgid "Install"
+msgstr ""
+
+#: includes/class-pdf-report.php:231
+msgid "WebP Express"
+msgstr ""
+
+#: includes/class-pdf-report.php:232
+msgid "Switch to green hosting (e.g., GreenGeeks, Kualo)"
+msgstr ""
+
+#: includes/class-pdf-report.php:233
+msgid "Avoid bloated frameworks — use compressed images, efficient file formats, and lightweight fonts"
+msgstr ""
+
+#: includes/class-pdf-report.php:236
+msgid "This website carbon calculator has been created by"
+msgstr ""
+
+#: includes/class-pdf-report.php:237
+msgid "Wholegrain Digital"
+msgstr ""
+
+#: includes/class-pdf-report.php:238
+msgid "to help inspire and educate people to create a zero carbon internet. It is hosted using renewable energy."
+msgstr ""
+
+#: includes/class-pdf-report.php:239
+msgid "GreenAudit WP extends this work — turning awareness into actionable, open-source infrastructure for a sustainable web."
+msgstr ""
+
+#: includes/class-pdf-report.php:242
+msgid "ECO Web Tools"
+msgstr ""
+
+#: includes/class-pdf-report.php:243
+msgid "Open Source, Non-Commercial, GPLv3+"
+msgstr ""

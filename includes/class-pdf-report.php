@@ -1,161 +1,210 @@
 <?php
-if (!defined('ABSPATH')) exit;
+/**
+ * GreenAudit PDF Report Generator
+ * 
+ * Uses dompdf to generate branded, professional sustainability reports.
+ * 
+ * @package GreenAudit
+ * @since 1.0.0
+ */
+
+if (!defined('ABSPATH')) {
+    exit; // Prevent direct access
+}
+
+if (!class_exists('GreenAudit_PDF_Report')) :
 
 class GreenAudit_PDF_Report {
-    
+
+    /**
+     * Generate PDF report from audit data
+     *
+     * @param array $data Audit data from GreenAudit_Carbon_API
+     * @return string|WP_Error PDF binary string or error
+     */
     public function generate($data = []) {
-        // Load DomPDF (assumes /lib/dompdf/ with autoload.inc.php)
+        // ✅ 1. Validate dompdf
         $autoload = GREENAUDIT_PATH . 'lib/dompdf/autoload.inc.php';
         if (!file_exists($autoload)) {
-            return new WP_Error('dompdf_missing', 'DomPDF not found. Check /lib/dompdf/autoload.inc.php');
+            return new WP_Error(
+                'dompdf_missing',
+                __('DomPDF not found. Ensure /lib/dompdf/autoload.inc.php exists.', 'greenaudit')
+            );
         }
-        require_once $autoload;
-        
-        $dompdf = new \Dompdf\Dompdf([
-            'defaultFont' => 'Helvetica',
-            'isRemoteEnabled' => false,
-            'isHtml5ParserEnabled' => true
-        ]);
-        
-        $carbon = isset($data['carbon']) ? $data['carbon'] : 'N/A';
-        $energy = isset($data['energy']) ? $data['energy'] : 'N/A';
-        $host = parse_url(home_url(), PHP_URL_HOST);
-        $date = date('F j, Y');
 
-        // Build optimization list (only if passed in)
-        $optimizations_html = '';
-        if (!empty($data['optimizations'])) {
-            $items = [];
-            foreach ($data['optimizations'] as $opt) {
-                $items[] = "• {$opt}";
+        try {
+            require_once $autoload;
+
+            // ✅ 2. Configure dompdf securely
+            $options = new \Dompdf\Options([
+                'defaultFont'           => 'Helvetica',
+                'isRemoteEnabled'       => false,      // Critical: no remote assets
+                'isJavascriptEnabled'   => false,      // Prevent PDF scripting
+                'isHtml5ParserEnabled'  => true,
+                'fontDir'               => GREENAUDIT_PATH . 'lib/dompdf/lib/fonts/',
+                'tempDir'               => sys_get_temp_dir(),
+            ]);
+
+            $dompdf = new \Dompdf\Dompdf($options);
+
+            // ✅ 3. Sanitize & prepare data
+            $carbon = isset($data['carbon']) && is_numeric($data['carbon'])
+                ? number_format(floatval($data['carbon']), 2, '.', '')
+                : __('N/A', 'greenaudit');
+
+            $energy = isset($data['energy']) && is_numeric($data['energy'])
+                ? number_format(floatval($data['energy']), 5, '.', '')
+                : __('N/A', 'greenaudit');
+
+            $host = wp_parse_url(home_url(), PHP_URL_HOST) ?: __('Unknown', 'greenaudit');
+            $date = wp_date(get_option('date_format'));
+
+            // ✅ 4. Build optimizations HTML (safe)
+            $optimizations_html = '';
+            if (!empty($data['optimizations']) && is_array($data['optimizations'])) {
+                $items = [];
+                foreach ($data['optimizations'] as $opt) {
+                    $items[] = '• ' . esc_html(strip_tags($opt));
+                }
+                $optimizations_html = '<p><strong>' . esc_html__('✅ Optimizations applied', 'greenaudit') . ':</strong><br>' . implode('<br>', $items) . '</p>';
             }
-            $optimizations_html = '<p><strong>✅ Optimizations applied:</strong><br>' . implode('<br>', $items) . '</p>';
+
+            // ✅ 5. Build HTML (no sprintf → no argument mismatch)
+            $html = '<!DOCTYPE html>
+<html lang="' . esc_attr(get_locale()) . '">
+<head>
+    <meta charset="UTF-8">
+    <meta name="generator" content="GreenAudit WP ' . esc_attr(GREENAUDIT_VERSION) . '">
+    <style>
+        body { 
+            font-family: "Helvetica", "Arial", sans-serif; 
+            margin: 2cm; 
+            line-height: 1.6; 
+            color: #212121; 
         }
-
-        $html = '
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="UTF-8">
-            <style>
-                body { 
-                    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
-                    margin: 2cm; 
-                    line-height: 1.6; 
-                    color: #333; 
-                }
-                h1 { 
-                    color: #2E7D32; 
-                    text-align: center; 
-                    margin: 0 0 5px 0; 
-                    font-size: 24pt; 
-                }
-                .subtitle { 
-                    text-align: center; 
-                    color: #666; 
-                    font-size: 10pt; 
-                    margin: 0 0 20px 0; 
-                    line-height: 1.3; 
-                }
-                .highlight { 
-                    font-weight: bold; 
-                    color: #1B5E20; 
-                }
-                blockquote { 
-                    font-style: italic; 
-                    color: #212121; 
-                    margin: 20px 0; 
-                    padding: 15px 20px; 
-                    border-left: 3px solid #4CAF50; 
-                    background: #f8fff8; 
-                    font-size: 10pt; 
-                }
-                hr { 
-                    border: 0; 
-                    border-top: 1px solid #eee; 
-                    margin: 20px 0; 
-                }
-                .footer { 
-                    margin-top: 30px; 
-                    font-size: 9pt; 
-                    color: #555; 
-                    border-top: 1px solid #eee; 
-                    padding-top: 15px; 
-                    line-height: 1.5; 
-                }
-                a { color: #1976D2; text-decoration: none; }
-                a:hover { text-decoration: underline; }
-            </style>
-        </head>
-        <body>
-            <h1>Green Audit Report</h1>
-            <p class="subtitle">
-                Generated by GreenAudit WP — an open tool by ECO Web Tools<br>
-                Website: <strong>' . esc_html($host) . '</strong><br>
-                Date: ' . $date . '
-            </p>
-            
-            <hr>
-            
-            <blockquote>
-                The internet consumes <strong>1021 TWh per year</strong> to be precise. 
-                To give you some perspective, that’s <strong>more than the entire United Kingdom</strong>.
-                <br><br>
-                From data centres to transmission networks to the billions of connected devices that we hold in our hands, 
-                it is all consuming electricity, and in turn producing carbon emissions <strong>equal to or greater than the global aviation industry</strong>.
-            </blockquote>
-            
-            <p><strong>This website’s footprint:</strong></p>
-            <ul>
-                <li><strong>Carbon per visit:</strong> <span class="highlight">' . $carbon . ' g CO2</span></li>
-                <li><strong>Energy per visit:</strong> <span class="highlight">' . $energy . ' kWh</span></li>
-            </ul>
-            
-            <p>
-                <em>Estimate via the original 
-                <a href="https://www.websitecarbon.com/methodology/">Website Carbon Calculator methodology</a> 
-                (Wholegrain Digital, 2018)</em>
-            </p>
-            
-            ' . $optimizations_html . '
-            
-            <p><strong>Recommended next steps:</strong></p>
-            <ul>
-                <li>Install <a href="https://wordpress.org/plugins/webp-express/">WebP Express</a> for automatic WebP delivery</li>
-                <li>Switch to green hosting (e.g., GreenGeeks, Kualo)</li>
-                <li>Avoid bloated frameworks — use compressed images, efficient file formats, and lightweight fonts</li>
-            </ul>
-            
-            <div class="footer">
-                <p>
-                    This website carbon calculator has been created by 
-                    <strong>Wholegrain Digital</strong> to help inspire and educate people to create a zero carbon internet. 
-                    It is hosted using renewable energy.
-                </p>
-                
-                <p>
-                    GreenAudit WP extends this work — turning awareness into actionable, open-source infrastructure 
-                    for a sustainable web.
-                </p>
-                
-                <p>
-                    © ' . date('Y') . ' ECO Web Tools — Open Source, Non-Commercial, GPLv3+<br>
-                    https://ecowebtools.org
-                </p>
-            </div>
-        </body>
-        </html>';
-
+        h1 { 
+            color: #1B5E20; 
+            text-align: center; 
+            margin-bottom: 5px; 
+            font-size: 24pt; 
+        }
+        .subtitle { 
+            text-align: center; 
+            color: #555; 
+            font-size: 10pt; 
+            margin: 0 0 20px 0; 
+            line-height: 1.3; 
+        }
+        .highlight { 
+            font-weight: bold; 
+            color: #00695C; 
+        }
+        blockquote { 
+            font-style: italic; 
+            color: #212121; 
+            margin: 20px 0; 
+            padding: 15px 20px; 
+            border-left: 3px solid #4CAF50; 
+            background-color: #f8fff8; 
+            font-size: 10pt; 
+        }
+        hr { 
+            border: 0; 
+            border-top: 1px solid #eee; 
+            margin: 20px 0; 
+        }
+        .footer { 
+            margin-top: 30px; 
+            font-size: 9pt; 
+            color: #555; 
+            border-top: 1px solid #eee; 
+            padding-top: 15px; 
+            line-height: 1.5; 
+        }
+        a { 
+            color: #1565C0; 
+            text-decoration: none; 
+        }
+        a:hover { 
+            text-decoration: underline; 
+        }
+        @media print {
+            a[href]::after { content: " (" attr(href) ")"; font-size: 8pt; color: #777; }
+        }
+    </style>
+</head>
+<body>
+    <h1>' . esc_html__('Green Audit Report', 'greenaudit') . '</h1>
+    <p class="subtitle">
+        ' . esc_html__('Generated by GreenAudit WP — an open tool by ECO Web Tools', 'greenaudit') . '<br>
+        ' . esc_html__('Website', 'greenaudit') . ': <strong>' . esc_html($host) . '</strong><br>
+        ' . esc_html__('Date', 'greenaudit') . ': ' . esc_html($date) . '
+    </p>
+    
+    <hr>
+    
+    <blockquote>
+        ' . esc_html__('The internet consumes 1,021 TWh per year — more than the entire United Kingdom.', 'greenaudit') . '<br><br>
+        ' . esc_html__('From data centres to transmission networks to billions of devices, it all consumes electricity, producing carbon emissions equal to or greater than the global aviation industry.', 'greenaudit') . '
+    </blockquote>
+    
+    <p><strong>' . esc_html__('This website’s footprint', 'greenaudit') . ':</strong></p>
+    <ul>
+        <li><strong>' . esc_html__('Carbon per visit', 'greenaudit') . ':</strong> <span class="highlight">' . esc_html($carbon) . ' g CO₂</span></li>
+        <li><strong>' . esc_html__('Energy per visit', 'greenaudit') . ':</strong> <span class="highlight">' . esc_html($energy) . ' kWh</span></li>
+    </ul>
+    
+    <p>
+        <em>' . esc_html__('Estimate via the original', 'greenaudit') . ' 
+        <a href="' . esc_url('https://www.websitecarbon.com/methodology/') . '" target="_blank" rel="noopener">' . esc_html__('Website Carbon Calculator methodology', 'greenaudit') . '</a> 
+        (' . esc_html__('Wholegrain Digital, 2018', 'greenaudit') . ')</em>
+    </p>
+    
+    ' . $optimizations_html . '
+    
+    <p><strong>' . esc_html__('Recommended next steps', 'greenaudit') . ':</strong></p>
+    <ul>
+        <li>' . esc_html__('Install', 'greenaudit') . ' <a href="' . esc_url('https://wordpress.org/plugins/webp-express/') . '" target="_blank" rel="noopener">' . esc_html__('WebP Express', 'greenaudit') . '</a></li>
+        <li>' . esc_html__('Switch to green hosting (e.g., GreenGeeks, Kualo)', 'greenaudit') . '</li>
+        <li>' . esc_html__('Avoid bloated frameworks — use compressed images, efficient file formats, and lightweight fonts', 'greenaudit') . '</li>
+    </ul>
+    
+    <div class="footer">
+        <p>
+            ' . esc_html__('This website carbon calculator has been created by', 'greenaudit') . '<br>
+            <strong>' . esc_html__('Wholegrain Digital', 'greenaudit') . '</strong> ' . esc_html__('to help inspire and educate people to create a zero carbon internet. It is hosted using renewable energy.', 'greenaudit') . '<br>
+            ' . esc_html__('GreenAudit WP extends this work — turning awareness into actionable, open-source infrastructure for a sustainable web.', 'greenaudit') . '
+        </p>
         
-$options = $dompdf->getOptions();
-$options->setDefaultFont('Helvetica');
-$dompdf->setOptions($options);
+        <p>
+            © ' . esc_html(date('Y')) . ' ' . esc_html__('ECO Web Tools', 'greenaudit') . ' — ' . esc_html__('Open Source, Non-Commercial, GPLv3+', 'greenaudit') . '<br>
+            ' . esc_url('https://ecowebtools.org') . '
+        </p>
+    </div>
+</body>
+</html>';
 
-$dompdf->loadHtml($html);
+            // ✅ 6. Render PDF
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('A4', 'portrait');
 
-        $dompdf->setPaper('A4', 'portrait');
-        $dompdf->render();
-        
-        return $dompdf->output();
+            // Prevent timeout
+            set_time_limit(30);
+            $dompdf->render();
+
+            return $dompdf->output();
+
+        } catch (\Exception $e) {
+            error_log('GreenAudit PDF error: ' . $e->getMessage());
+            return new WP_Error(
+                'pdf_generation_failed',
+                sprintf(
+                    __('PDF generation failed: %s', 'greenaudit'),
+                    esc_html($e->getMessage())
+                )
+            );
+        }
     }
 }
+
+endif; // class_exists
