@@ -1,0 +1,26 @@
+# WordPress core files (if any)
+wp-config.php
+wp-content/uploads/
+wp-content/cache/
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Composer (if you use it later)
+vendor/
+composer.lock
+
+# Logs
+logs/
+debug.log
+
+# Environment files
+.env
+.env.local
+
+# OS generated files
+.DS_Store
+Thumbs.db

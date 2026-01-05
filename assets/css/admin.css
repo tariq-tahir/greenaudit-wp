@@ -1,0 +1,26 @@
+/* GreenAudit WP Admin Styles */
+#greenaudit-results,
+#greenaudit-diagnostics details {
+    border-left: 4px solid #4CAF50;
+    padding: 15px 0 20px 20px;
+    background: #f8fff8;
+    margin-top: 20px;
+}
+
+#greenaudit-diagnostics details summary {
+    cursor: pointer;
+    padding: 8px 0;
+    font-weight: 600;
+}
+
+.spinner.is-active {
+    visibility: visible !important;
+    opacity: 1 !important;
+    display: inline-block !important;
+    width: 20px !important;
+    height: 20px !important;
+}
+
+#optimize-result .notice {
+    margin-top: 15px;
+}
