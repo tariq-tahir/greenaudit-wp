@@ -1,5 +1,5 @@
 === GreenAudit WP ===
-Contributors: Tariq Tahir
+Contributors: tariqtahir
 Tags: sustainability, carbon footprint, green web, eco-friendly, website audit, performance, accessibility, PDF report, climate action
 Requires at least: 6.0
 Tested up to: 6.7
@@ -61,28 +61,29 @@ Absolutely. The PDF includes your site name, date, and metrics — ready to incl
 == Changelog ==
 
 = 1.0.0 =
-* Official stable release
-* Added PDF report generation (dompdf)
-* Improved caching resilience
-* Full i18n support (POT file included)
-* Security hardening: capability checks, input sanitization
-
-= 0.4.0 =
-* Added per-post audit capability
-* Energy efficiency rating (A–G scale)
-* Admin UI refresh
-
-= 0.3.0 =
-* WordPress.org compliance update
-* License updated to GPLv3+
-
-= 0.2.0 =
-* Initial beta release
+* Initial stable release.
+* Updated stable tag to match version.
+* Minor fixes and code cleanup.
 
 == Upgrade Notice ==
 
 = 1.0.0 =
 This update includes critical security improvements and PDF reporting. Backup before upgrading.
+
+== Privacy Policy ==
+
+GreenAudit WP does not collect, store, or transmit any personal data by default.
+
+If enabled by the site administrator, the plugin may perform external HTTP requests to public APIs 
+(e.g., for performance metrics or carbon footprint estimation). These requests may include the 
+audited URL and basic metadata (e.g., page size, load time), but no personally identifiable 
+information (PII) or user-tracking data is collected or shared.
+
+The plugin does not set cookies, does not track users across sites, and does not integrate with 
+third-party analytics or advertising services.
+
+All audit reports (including PDF exports) are generated and stored locally on the site unless 
+explicitly exported by the administrator.
 
 == Third Party Libraries ==
 
